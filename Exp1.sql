@@ -1,0 +1,247 @@
+CREATE TABLE STUDENT(
+  Sno CHAR(9) PRIMARY KEY,
+  Sname CHAR(20),
+  Sage INT,
+  Ssex CHAR(2),
+  Sdept CHAR(20)
+);
+
+CREATE TABLE COURSE(
+  Cno CHAR(9) PRIMARY KEY,
+  Cname CHAR(20) NOT NULL,
+  Cpno CHAR(4) REFERENCES COURSE(Cno),
+  Ccredit INT
+);
+
+CREATE TABLE SC(
+  Sno CHAR(9),
+  Cno CHAR(9),
+  Grade INT,
+  PRIMARY KEY (Sno, Cno),
+  FOREIGN KEY (Sno) REFERENCES STUDENT(Sno),
+  FOREIGN KEY (Cno) REFERENCES COURSE(Cno)
+);
+
+ALTER TABLE
+  STUDENT
+ADD
+  BloodType CHAR(2);
+
+ALTER TABLE
+  STUDENT
+MODIFY
+  Sdept VARCHAR2(40);
+
+ALTER TABLE
+  STUDENT
+ADD
+  CONSTRAINT sage CHECK(
+    Sage > 15
+    AND Sage < 30
+  );
+
+ALTER TABLE
+  STUDENT DROP CONSTRAINT sage;
+
+ALTER TABLE
+  STUDENT DROP COLUMN BloodType;
+
+/*
+ 
+ SELECT  *
+ 
+ FROM STUDENT;*/
+/*DROP TABLE STUDENT1;
+ 
+ DROP TABLE SC;
+ 
+ DROP TABLE STUDENT; */
+CREATE UNIQUE INDEX stusnam0173 ON STUDENT(Sname);
+
+CREATE UNIQUE INDEX i_sc0173 ON SC(Sno ASC, Cno DESC);
+
+DROP INDEX stusnam0173;
+
+DROP INDEX i_sc0173;
+
+INSERT INTO
+  STUDENT(SNO, SNAME, SSEX, SAGE, SDEPT)
+VALUES
+  ('200215121', '����', '��', 20, 'CS');
+
+INSERT INTO
+  STUDENT(SNO, SNAME, SSEX, SAGE, SDEPT)
+VALUES
+  ('200215122', '����', 'Ů', 19, 'CS');
+
+INSERT INTO
+  STUDENT(SNO, SNAME, SSEX, SAGE, SDEPT)
+VALUES
+  ('200215123', '����', 'Ů', 18, 'MA');
+
+INSERT INTO
+  STUDENT(SNO, SNAME, SSEX, SAGE, SDEPT)
+VALUES
+  ('200215125', '����', '��', 19, 'IS');
+
+/*
+ 
+ SELECT  *
+ FROM STUDENT;*/
+INSERT INTO
+  COURSE(CNO, CNAME, CPNO, CCREDIT)
+values
+('2', '����', null, 2);
+
+/*�Ƚ������޿εģ���֤���������õĵ����ͳ��ȶ���ͬ*/
+INSERT INTO
+  COURSE(CNO, CNAME, CPNO, CCREDIT)
+values
+('6', '���ݴ���', null, 2);
+
+INSERT INTO
+  COURSE(CNO, CNAME, CPNO, CCREDIT)
+values
+('7', 'PASCAL����', '6', 4);
+
+INSERT INTO
+  COURSE(CNO, CNAME, CPNO, CCREDIT)
+values
+('4', '����ϵͳ', '6', 3);
+
+INSERT INTO
+  COURSE(CNO, CNAME, CPNO, CCREDIT)
+values
+('5', '���ݽṹ', '7', 4);
+
+INSERT INTO
+  COURSE(CNO, CNAME, CPNO, CCREDIT)
+values
+('1', '���ݿ�', '5', 4);
+
+INSERT INTO
+  COURSE(CNO, CNAME, CPNO, CCREDIT)
+values
+('3', '��Ϣϵͳ', '1', 4);
+
+/*
+ 
+ SELECT  *
+ FROM COURSE; ALTER TABLE COURSE MODIFY CPNO CHAR
+ (9
+ ); */
+INSERT INTO
+  SC(SNO, CNO, GRADE)
+values
+('200215121', '2', 85);
+
+INSERT INTO
+  SC(SNO, CNO, GRADE)
+values
+('200215121', '3', 88);
+
+INSERT INTO
+  SC(SNO, CNO, GRADE)
+values
+('200215122', '4', 90);
+
+INSERT INTO
+  SC(SNO, CNO, GRADE)
+values
+('200215122', '3', 80);
+
+/*
+ 
+ SELECT  *
+ FROM SC;*/
+UPDATE
+  STUDENT
+SET
+  SAGE = 20
+WHERE
+  SNAME = '����';
+
+/*
+ 
+ SELECT  SAGE
+ FROM STUDENT
+ WHERE SNAME = '����';*/
+UPDATE
+  STUDENT
+SET
+  SAGE = SAGE + 1;
+
+UPDATE
+  SC
+SET
+  GRADE = 0
+WHERE
+  SNO IN (
+    SELECT
+      SNO
+    FROM
+      STUDENT
+    WHERE
+      SDEPT = 'CS'
+  );
+
+SELECT
+  *
+FROM
+  SC;
+
+DELETE FROM
+  SC
+WHERE
+  SNO IN (
+    SELECT
+      SNO
+    FROM
+      STUDENT
+    WHERE
+      SDEPT IN (
+        SELECT
+          SDEPT
+        FROM
+          STUDENT
+        WHERE
+          SNAME = '����'
+      )
+  );
+
+DELETE FROM
+  STUDENT
+WHERE
+  SDEPT IN (
+    SELECT
+      SDEPT
+    FROM
+      STUDENT
+    WHERE
+      SNAME = '����'
+  );
+
+DELETE FROM
+  SC
+WHERE
+  SNO IN (
+    SELECT
+      SNO
+    FROM
+      STUDENT
+    WHERE
+      SDEPT = 'CS
+      '
+  );
+
+/*
+ 
+ SELECT  *
+ FROM STUDENT;
+ 
+ SELECT  *
+ FROM SC;*/
+SELECT
+  userenv('language')
+FROM  
+  dual;
