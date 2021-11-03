@@ -1,51 +1,40 @@
-CREATE TABLE STUDENT(
-  Sno CHAR(9) PRIMARY KEY,
-  Sname CHAR(20),
-  Sage INT,
-  Ssex CHAR(2),
-  Sdept CHAR(20)
+CREATE TABLE STUDENT
+(
+    Sno   CHAR(9) PRIMARY KEY,
+    Sname CHAR(20),
+    Sage  INT,
+    Ssex  CHAR(2),
+    Sdept CHAR(20)
 );
-
-CREATE TABLE COURSE(
-  Cno CHAR(9) PRIMARY KEY,
-  Cname CHAR(20) NOT NULL,
-  Cpno CHAR(4) REFERENCES COURSE(Cno),
-  Ccredit INT
+CREATE TABLE COURSE
+(
+    Cno     CHAR(9) PRIMARY KEY,
+    Cname   CHAR(20) NOT NULL,
+    Cpno    CHAR(4) REFERENCES COURSE (Cno),
+    Ccredit INT
 );
-
-CREATE TABLE SC(
-  Sno CHAR(9),
-  Cno CHAR(9),
-  Grade INT,
-  PRIMARY KEY (Sno, Cno),
-  FOREIGN KEY (Sno) REFERENCES STUDENT(Sno),
-  FOREIGN KEY (Cno) REFERENCES COURSE(Cno)
+CREATE TABLE SC
+(
+    Sno   CHAR(9),
+    Cno   CHAR(9),
+    Grade INT,
+    PRIMARY KEY (Sno, Cno),
+    FOREIGN KEY (Sno) REFERENCES STUDENT (Sno),
+    FOREIGN KEY (Cno) REFERENCES COURSE (Cno)
 );
-
-ALTER TABLE
-  STUDENT
-ADD
-  BloodType CHAR(2);
-
-ALTER TABLE
-  STUDENT
-MODIFY
-  Sdept VARCHAR2(40);
-
-ALTER TABLE
-  STUDENT
-ADD
-  CONSTRAINT sage CHECK(
-    Sage > 15
-    AND Sage < 30
-  );
-
-ALTER TABLE
-  STUDENT DROP CONSTRAINT sage;
-
-ALTER TABLE
-  STUDENT DROP COLUMN BloodType;
-
+ALTER TABLE STUDENT
+    ADD BloodType CHAR(2);
+ALTER TABLE STUDENT
+    MODIFY Sdept VARCHAR2(40);
+ALTER TABLE STUDENT
+    ADD CONSTRAINT sage CHECK (
+                Sage > 15
+            AND Sage < 30
+        );
+ALTER TABLE STUDENT
+    DROP CONSTRAINT sage;
+ALTER TABLE STUDENT
+    DROP COLUMN BloodType;
 /*
  
  SELECT  *
@@ -55,185 +44,103 @@ ALTER TABLE
  
  DROP TABLE SC;
  
+
  DROP TABLE STUDENT; */
-CREATE UNIQUE INDEX stusnam0173 ON STUDENT(Sname);
 
-CREATE UNIQUE INDEX i_sc0173 ON SC(Sno ASC, Cno DESC);
 
+CREATE UNIQUE INDEX stusnam0173 ON STUDENT (Sname);
+CREATE UNIQUE INDEX i_sc0173 ON SC (Sno ASC, Cno DESC);
 DROP INDEX stusnam0173;
-
 DROP INDEX i_sc0173;
-
-INSERT INTO
-  STUDENT(SNO, SNAME, SSEX, SAGE, SDEPT)
-VALUES
-  ('200215121', 'ï¿½ï¿½ï¿½ï¿½', 'ï¿½ï¿½', 20, 'CS');
-
-INSERT INTO
-  STUDENT(SNO, SNAME, SSEX, SAGE, SDEPT)
-VALUES
-  ('200215122', 'ï¿½ï¿½ï¿½ï¿½', 'Å®', 19, 'CS');
-
-INSERT INTO
-  STUDENT(SNO, SNAME, SSEX, SAGE, SDEPT)
-VALUES
-  ('200215123', 'ï¿½ï¿½ï¿½ï¿½', 'Å®', 18, 'MA');
-
-INSERT INTO
-  STUDENT(SNO, SNAME, SSEX, SAGE, SDEPT)
-VALUES
-  ('200215125', 'ï¿½ï¿½ï¿½ï¿½', 'ï¿½ï¿½', 19, 'IS');
-
+INSERT INTO STUDENT (SNO, SNAME, SSEX, SAGE, SDEPT)
+VALUES ('200215121', 'ÀîÓÂ', 'ÄÐ', 20, 'CS');
+INSERT INTO STUDENT (SNO, SNAME, SSEX, SAGE, SDEPT)
+VALUES ('200215122', 'Áõ³¿', 'Å®', 19, 'CS');
+INSERT INTO STUDENT (SNO, SNAME, SSEX, SAGE, SDEPT)
+VALUES ('200215123', 'ÍõÃô', 'Å®', 18, 'MA');
+INSERT INTO STUDENT (SNO, SNAME, SSEX, SAGE, SDEPT)
+VALUES ('200215125', 'ÕÅÁ¢', 'ÄÐ', 19, 'IS');
 /*
  
  SELECT  *
  FROM STUDENT;*/
-INSERT INTO
-  COURSE(CNO, CNAME, CPNO, CCREDIT)
-values
-('2', 'ï¿½ï¿½ï¿½ï¿½', null, 2);
-
-/*ï¿½È½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¿ÎµÄ£ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄµï¿½ï¿½ï¿½ï¿½Í³ï¿½ï¿½È¶ï¿½ï¿½ï¿½Í¬*/
-INSERT INTO
-  COURSE(CNO, CNAME, CPNO, CCREDIT)
-values
-('6', 'ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½', null, 2);
-
-INSERT INTO
-  COURSE(CNO, CNAME, CPNO, CCREDIT)
-values
-('7', 'PASCALï¿½ï¿½ï¿½ï¿½', '6', 4);
-
-INSERT INTO
-  COURSE(CNO, CNAME, CPNO, CCREDIT)
-values
-('4', 'ï¿½ï¿½ï¿½ï¿½ÏµÍ³', '6', 3);
-
-INSERT INTO
-  COURSE(CNO, CNAME, CPNO, CCREDIT)
-values
-('5', 'ï¿½ï¿½ï¿½Ý½á¹¹', '7', 4);
-
-INSERT INTO
-  COURSE(CNO, CNAME, CPNO, CCREDIT)
-values
-('1', 'ï¿½ï¿½ï¿½Ý¿ï¿½', '5', 4);
-
-INSERT INTO
-  COURSE(CNO, CNAME, CPNO, CCREDIT)
-values
-('3', 'ï¿½ï¿½Ï¢ÏµÍ³', '1', 4);
-
+INSERT INTO COURSE (CNO, CNAME, Cpno, CCREDIT)
+values ('2', 'Êý×Ö', null, 2);
+INSERT INTO COURSE (CNO, CNAME, Cpno, CCREDIT)
+values ('6', 'Êý¾Ý´¦Àí', null, 2);
+INSERT INTO COURSE (CNO, CNAME, Cpno, CCREDIT)
+values ('7', 'PASCALÓïÑÔ', '6', 4);
+INSERT INTO COURSE (CNO, CNAME, Cpno, CCREDIT)
+values ('4', '²Ù×÷ÏµÍ³', '6', 3);
+INSERT INTO COURSE (CNO, CNAME, Cpno, CCREDIT)
+values ('5', 'Êý¾Ý½á¹¹', '7', 4);
+INSERT INTO COURSE (CNO, CNAME, Cpno, CCREDIT)
+values ('1', 'Êý¾Ý¿â', '5', 4);
+INSERT INTO COURSE (CNO, CNAME, Cpno, CCREDIT)
+values ('3', 'ÐÅÏ¢ÏµÍ³', '1', 4);
 /*
  
  SELECT  *
  FROM COURSE; ALTER TABLE COURSE MODIFY CPNO CHAR
  (9
  ); */
-INSERT INTO
-  SC(SNO, CNO, GRADE)
-values
-('200215121', '2', 85);
-
-INSERT INTO
-  SC(SNO, CNO, GRADE)
-values
-('200215121', '3', 88);
-
-INSERT INTO
-  SC(SNO, CNO, GRADE)
-values
-('200215122', '4', 90);
-
-INSERT INTO
-  SC(SNO, CNO, GRADE)
-values
-('200215122', '3', 80);
-
+INSERT INTO SC (SNO, CNO, GRADE)
+values ('200215121', '2', 85);
+INSERT INTO SC (SNO, CNO, GRADE)
+values ('200215121', '3', 88);
+INSERT INTO SC (SNO, CNO, GRADE)
+values ('200215122', '4', 90);
+INSERT INTO SC (SNO, CNO, GRADE)
+values ('200215122', '3', 80);
 /*
  
  SELECT  *
  FROM SC;*/
-UPDATE
-  STUDENT
-SET
-  SAGE = 20
-WHERE
-  SNAME = 'ï¿½ï¿½ï¿½ï¿½';
-
+UPDATE STUDENT
+SET SAGE = 20
+WHERE SNAME = 'ÍõÃô';
 /*
  
  SELECT  SAGE
  FROM STUDENT
- WHERE SNAME = 'ï¿½ï¿½ï¿½ï¿½';*/
-UPDATE
-  STUDENT
-SET
-  SAGE = SAGE + 1;
-
-UPDATE
-  SC
-SET
-  GRADE = 0
-WHERE
-  SNO IN (
-    SELECT
-      SNO
-    FROM
-      STUDENT
-    WHERE
-      SDEPT = 'CS'
-  );
-
-SELECT
-  *
-FROM
-  SC;
-
-DELETE FROM
-  SC
-WHERE
-  SNO IN (
-    SELECT
-      SNO
-    FROM
-      STUDENT
-    WHERE
-      SDEPT IN (
-        SELECT
-          SDEPT
-        FROM
-          STUDENT
-        WHERE
-          SNAME = 'ï¿½ï¿½ï¿½ï¿½'
-      )
-  );
-
-DELETE FROM
-  STUDENT
-WHERE
-  SDEPT IN (
-    SELECT
-      SDEPT
-    FROM
-      STUDENT
-    WHERE
-      SNAME = 'ï¿½ï¿½ï¿½ï¿½'
-  );
-
-DELETE FROM
-  SC
-WHERE
-  SNO IN (
-    SELECT
-      SNO
-    FROM
-      STUDENT
-    WHERE
-      SDEPT = 'CS
+ WHERE SNAME = '????';*/
+UPDATE STUDENT
+SET SAGE = SAGE + 1;
+UPDATE SC
+SET GRADE = 0
+WHERE SNO IN (
+    SELECT SNO
+    FROM STUDENT
+    WHERE SDEPT = 'CS'
+);
+SELECT *
+FROM SC;
+DELETE
+FROM SC
+WHERE SNO IN (
+    SELECT SNO
+    FROM STUDENT
+    WHERE SDEPT IN (
+        SELECT SDEPT
+        FROM STUDENT
+        WHERE SNAME = 'Áõ³¿'
+    )
+);
+DELETE
+FROM STUDENT
+WHERE SDEPT IN (
+    SELECT SDEPT
+    FROM STUDENT
+    WHERE SNAME = 'Áõ³¿'
+);
+DELETE
+FROM SC
+WHERE SNO IN (
+    SELECT SNO
+    FROM STUDENT
+    WHERE SDEPT = 'CS
       '
-  );
-
+);
 /*
  
  SELECT  *
@@ -241,7 +148,5 @@ WHERE
  
  SELECT  *
  FROM SC;*/
-SELECT
-  userenv('language')
-FROM  
-  dual;
+SELECT userenv('language')
+FROM dual;
